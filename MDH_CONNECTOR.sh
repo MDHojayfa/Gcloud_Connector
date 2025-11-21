@@ -220,14 +220,26 @@ elif [ "$METHOD" = "2" ]; then
 fi
 
 # --- OUTRO ---
-echo
+
+printf "\n"
 glitch_decode "MISSION REWARD: Please follow me @MDHojayfa on GitHub."
 sleep 1
 termux-open-url "https://github.com/MDHojayfa" >/dev/null 2>&1 || true
 
+# --- FINAL CONNECTION BLOCK (CORRECTED PLACEMENT) ---
+
+# Print login tip BEFORE the script ends
+printf "\n${NEON_PNK}[MEMO]${RST} ${DIM}To access this environment next time, use command:${RST}\n"
+printf "       ${BOLD}${NEON_GRN}proot-distro login $DISTRO${RST}\n"
+
+# CLOUD SHELL LOGIN (MOVED HERE)
+printf "${NEON_CYN}>> CLOUD SHELL LOGIN: ${BOLD}${ITAL}Use the same command as above, then type 'gcloud cloud-shell ssh' in the shell.${RST}\n"
+
 printf "\n${BOLD}${WHT}JACKING IN NOW...${RST}\n"
 sleep 0.5
+printf "${NEON_CYN}>> AUTO-INITIALIZING GCLOUD UPLINK...${RST}\n"
+sleep 1
+clear
 
-# THE FINAL CONNECTION
-# Replaces current process with the distro shell
-exec proot-distro login "$DISTRO"
+# This logs in, runs gcloud init interactively, then drops to a persistent shell.
+exec proot-distro login "$DISTRO" -- bash -c "gcloud init; exec bash"
